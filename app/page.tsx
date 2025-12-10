@@ -1,65 +1,411 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import {
+  ShoppingCart,
+  IndianRupee,
+  Package,
+  AlertTriangle,
+} from "lucide-react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+  ChartOptions,
+} from "chart.js";
+import { Line, Bar } from "react-chartjs-2";
+import { ScriptableContext } from "chart.js";
+import Link from "next/link";
+
+// Register ChartJS components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
+
+const dailySalesData = {
+  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  datasets: [
+    {
+      data: [20, 25, 30, 26, 40, 38, 10],
+      borderColor: "#FFB800",
+      backgroundColor: (context: ScriptableContext<"line">) => {
+        const ctx = context.chart.ctx;
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, "rgba(255, 217, 102, 0.8)");
+        gradient.addColorStop(1, "rgba(255, 217, 102, 0.1)");
+        return gradient;
+      },
+      borderWidth: 3,
+      fill: true,
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 6,
+      pointHoverBackgroundColor: "#FFB800",
+      pointHoverBorderColor: "#fff",
+      pointHoverBorderWidth: 2,
+    },
+  ],
+};
+
+const dailyRevenueData = {
+  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  datasets: [
+    {
+      data: [1400, 1200, 1900, 800, 1700, 0, 0],
+      backgroundColor: [
+        "#B8B8A0",
+        "#B8B8A0",
+        "#B8B8A0",
+        "#B8B8A0",
+        "#FFB800",
+        "#B8B8A0",
+        "#B8B8A0",
+      ],
+      borderRadius: 4,
+      borderSkipped: false,
+    },
+  ],
+};
+
+const salesChartOptions: ChartOptions<"line"> = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      backgroundColor: "white",
+      titleColor: "#666",
+      bodyColor: "#666",
+      borderColor: "#E0E0E0",
+      borderWidth: 1,
+      padding: 12,
+      displayColors: false,
+      callbacks: {
+        title: (context) => context[0].label,
+        label: (context) => `Orders: ${context.parsed.y}`,
+      },
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+      border: {
+        display: false,
+      },
+      ticks: {
+        color: "#666",
+        font: {
+          size: 12,
+        },
+      },
+    },
+    y: {
+      grid: {
+        color: "#E0E0E0",
+        drawTicks: false,
+      },
+      border: {
+        display: false,
+        dash: [3, 3],
+      },
+      ticks: {
+        color: "#666",
+        maxTicksLimit: 6,
+        font: {
+          size: 12,
+        },
+        padding: 8,
+      },
+    },
+  },
+};
+
+const revenueChartOptions: ChartOptions<"bar"> = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      backgroundColor: "white",
+      titleColor: "#666",
+      bodyColor: "#666",
+      borderColor: "#E0E0E0",
+      borderWidth: 1,
+      padding: 12,
+      displayColors: false,
+      callbacks: {
+        title: (context) => context[0].label,
+        label: (context) => `Revenue: ₹${context.parsed.y}`,
+      },
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+      border: {
+        display: false,
+      },
+      ticks: {
+        color: "#666",
+        font: {
+          size: 12,
+        },
+      },
+    },
+    y: {
+      grid: {
+        color: "#E0E0E0",
+        drawTicks: false,
+      },
+      border: {
+        display: false,
+        dash: [3, 3],
+      },
+      ticks: {
+        color: "#666",
+        maxTicksLimit: 7,
+        font: {
+          size: 12,
+        },
+        padding: 8,
+        callback: (value) => `₹${value}`,
+      },
+    },
+  },
+};
+
+const recentOrders = [
+  {
+    id: "#ORD-200",
+    customer: "FreshFruits.Co",
+    product: "Raw",
+    quantity: "20Kg",
+    amount: "₹4,000",
+    status: "Pending",
+  },
+  {
+    id: "#ORD-200",
+    customer: "FreshFruits.Co",
+    product: "Raw",
+    quantity: "20Kg",
+    amount: "₹4,000",
+    status: "On Its Way",
+  },
+  {
+    id: "#ORD-200",
+    customer: "FreshFruits.Co",
+    product: "Raw",
+    quantity: "20Kg",
+    amount: "₹4,000",
+    status: "Pending",
+  },
+  {
+    id: "#ORD-200",
+    customer: "FreshFruits.Co",
+    product: "Raw",
+    quantity: "20Kg",
+    amount: "₹4,000",
+    status: "Delivered",
+  },
+  {
+    id: "#ORD-200",
+    customer: "FreshFruits.Co",
+    product: "Raw",
+    quantity: "20Kg",
+    amount: "₹4,000",
+    status: "Pending",
+  },
+];
+
+export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="p-8">
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Dashboard</h1>
+        <p className="text-gray-600 text-sm">Here is your Quick Overview!</p>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-4 gap-5 mb-6">
+        {/* Total Orders */}
+        <div className="bg-white rounded-lg p-4 border border-gray-200">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-[#FFF4E0] rounded-lg flex items-center justify-center">
+              <ShoppingCart className="text-[#FFB800]" size={24} />
+            </div>
+            <div>
+              <p className="text-gray-600 text-sm mb-1">Total Orders</p>
+              <p className="text-2xl font-semibold text-gray-900">34</p>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Total Revenue */}
+        <div className="bg-white rounded-lg p-4 border border-gray-200">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-[#E8F5E9] rounded-lg flex items-center justify-center">
+              <IndianRupee className="text-[#4CAF50]" size={24} />
+            </div>
+            <div>
+              <p className="text-gray-600 text-sm mb-1">Total Revenue</p>
+              <p className="text-2xl font-semibold text-gray-900">₹33,300</p>
+            </div>
+          </div>
         </div>
-      </main>
+
+        {/* New Orders */}
+        <div className="bg-white rounded-lg p-4 border border-gray-200">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-[#E3F2FD] rounded-lg flex items-center justify-center">
+              <Package className="text-[#2196F3]" size={24} />
+            </div>
+            <div>
+              <p className="text-gray-600 text-sm mb-1">New Orders</p>
+              <p className="text-2xl font-semibold text-gray-900">13</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Stock Alerts */}
+        <div className="bg-[#F9E4E1] rounded-lg p-4 border border-[#FFCDD2]">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-[#F9D3D0] rounded-lg flex items-center justify-center">
+              <AlertTriangle className="text-[#F44336]" size={24} />
+            </div>
+            <div>
+              <p className="text-gray-600 text-sm mb-1">Stock Alerts</p>
+              <p className="text-2xl font-semibold text-[#F44336]">1 Alert</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-2 gap-6 mb-6">
+        {/* Daily Sales */}
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-1">
+              Daily Sales
+            </h2>
+            <p className="text-gray-600 text-[">Orders this Week</p>
+          </div>
+          <div className="h-[300px]">
+            <Line data={dailySalesData} options={salesChartOptions} />
+          </div>
+        </div>
+
+        {/* Daily Revenue */}
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-1">
+              Daily Revenue
+            </h2>
+            <p className="text-gray-600 text-sm">Revenue Trends This Week</p>
+          </div>
+          <div className="h-[300px]">
+            <Bar data={dailyRevenueData} options={revenueChartOptions} />
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Orders Table */}
+      <div className="bg-white rounded-lg border border-gray-200">
+        <div className="p-6 flex justify-between items-center border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-900">Recent Orders</h2>
+          <Link href="/orders">
+            <button className="text-[#2196F3] text-sm font-medium hover:underline">
+              View All
+            </button>
+          </Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-600">
+                  Order ID
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-600">
+                  Customer
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-600">
+                  Product
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-600">
+                  Quantity
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-600">
+                  Amount
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-600">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentOrders.map((order, index) => (
+                <tr
+                  key={index}
+                  className="border-b border-gray-100 hover:bg-gray-50"
+                >
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {order.id}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    {order.customer}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {order.product}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {order.quantity}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    {order.amount}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-3 py-1 rounded-md text-xs font-medium ${
+                        order.status === "Delivered"
+                          ? "bg-[#E8F5E9] text-[#2E7D32]"
+                          : order.status === "On Its Way"
+                          ? "bg-[#E3F2FD] text-[#1976D2]"
+                          : "bg-[#FFF4E0] text-[#F57C00]"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
