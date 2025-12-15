@@ -412,7 +412,7 @@ export default function ProductsPage() {
                 {hoveredRow === product.name && (
                   <td
                     colSpan={5}
-                    className="absolute inset-0 bg-black/20 backdrop-blur-[3px] bg-opacity-5 flex items-center justify-center"
+                    className="absolute inset-0 bg-black/5 backdrop-blur-[0.5px] bg-opacity-5 flex items-center justify-center"
                   >
                     <button
                       onClick={() => handleView(product)}
