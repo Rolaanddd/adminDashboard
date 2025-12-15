@@ -208,7 +208,7 @@ export default function CustomersPage() {
         </div>
         <button
           onClick={handleExport}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#2196F3] text-white rounded-lg hover:bg-[#1976D2] transition-colors font-medium"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#2196F3] text-white rounded-lg text-sm hover:bg-[#1976D2] transition-colors font-medium"
         >
           <Download size={18} />
           Export
@@ -359,7 +359,7 @@ export default function CustomersPage() {
                 {hoveredRow === customer.id && (
                   <td
                     colSpan={6}
-                    className="absolute inset-0 bg-black/40 backdrop-blur-[3px] bg-opacity-5 flex items-center justify-center"
+                    className="absolute inset-0 bg-black/20 backdrop-blur-[3px] bg-opacity-5 flex items-center justify-center"
                   >
                     <button
                       onClick={() => setSelectedCustomer(customer)}
