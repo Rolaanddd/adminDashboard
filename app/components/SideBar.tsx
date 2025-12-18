@@ -15,12 +15,12 @@ import {
 
 const navItems = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Orders", href: "/orders", icon: ShoppingCart },
-  { name: "Sales", href: "/sales", icon: TrendingUp },
-  { name: "Customers", href: "/customers", icon: Users },
   { name: "Products", href: "/products", icon: Package },
-  { name: "Business Verification", href: "/verification", icon: ShieldCheck },
+  { name: "Customers", href: "/customers", icon: Users },
+  { name: "Orders", href: "/orders", icon: ShoppingCart },
   { name: "Delivery Management", href: "/delivery", icon: Truck },
+  { name: "Sales", href: "/sales", icon: TrendingUp },
+  { name: "Business Verification", href: "/verification", icon: ShieldCheck },
 ];
 
 export default function Sidebar() {

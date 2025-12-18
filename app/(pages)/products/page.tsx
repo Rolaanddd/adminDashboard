@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import * as XLSX from "xlsx";
 
 interface Product {
   id: string;
@@ -147,21 +146,6 @@ export default function ProductsPage() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  // Export to Excel
-  const handleExport = () => {
-    const exportData = filteredAndSortedProducts.map((product) => ({
-      Product: product.name,
-      Description: product.description,
-      "Price (per kg)": `₹${product.price}`,
-      Stock: `${product.stock}kg`,
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(exportData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Products");
-    XLSX.writeFile(wb, "products.xlsx");
-  };
 
   // Delete product
   const handleDelete = (id: string) => {
