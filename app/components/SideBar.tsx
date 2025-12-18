@@ -27,7 +27,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-80 bg-[#1A1A1A] text-white flex flex-col">
+    <aside className="w-80 hidden bg-[#1A1A1A] text-white md:flex flex-col">
       {/* Logo */}
       <div className="p-6 flex items-center border-b-[0.5px] border-white/25 gap-3">
         <div className="w-12 h-12 bg-white rounded-full"></div>
