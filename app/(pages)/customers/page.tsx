@@ -249,7 +249,7 @@ export default function CustomersPage() {
             <div>
               <p className="text-gray-600 text-sm mb-1">Total Revenue</p>
               <p className="text-2xl font-bold text-gray-900">
-                {totalRevenue.toLocaleString()}
+                {totalRevenue.toLocaleString("en-IN")}
               </p>
             </div>
           </div>
@@ -339,7 +339,7 @@ export default function CustomersPage() {
                   {customer.orders}
                 </td>
                 <td className="px-6 py-4 text-sm font-semibold text-gray-900">
-                  ₹{customer.amount.toLocaleString()}
+                  ₹{customer.amount.toLocaleString("en-IN")}
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2 relative z-10">
