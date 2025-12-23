@@ -31,7 +31,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="p-6 flex items-center border-b-[0.5px] border-white/25 gap-3">
         <div className="w-12 h-12 bg-white rounded-full"></div>
-        <span className="text-2xl font-bold text-[#FFB800]">Banana Co.</span>
+        <span className="text-2xl font-bold text-[#FFB800]">Farm2Store</span>
       </div>
 
       {/* Navigation */}
