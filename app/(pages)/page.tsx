@@ -251,30 +251,36 @@ export default function DashboardPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-5 mb-6">
         {/* Total Orders */}
-        <div className="bg-white rounded-lg p-4 border border-gray-200">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#FFF4E0] rounded-lg flex items-center justify-center">
-              <ShoppingCart className="text-[#FFB800]" size={24} />
+        <Link href="/orders">
+          <button className="bg-white hover:shadow-md w-full hover:scale-105 transition-all duration-150 active:scale-100 rounded-lg p-4 border border-gray-200">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#FFF4E0] rounded-lg flex items-center justify-center">
+                <ShoppingCart className="text-[#FFB800]" size={24} />
+              </div>
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Total Orders</p>
+                <p className="text-2xl text-left font-semibold text-gray-900">
+                  34
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-gray-600 text-sm mb-1">Total Orders</p>
-              <p className="text-2xl font-semibold text-gray-900">34</p>
-            </div>
-          </div>
-        </div>
+          </button>
+        </Link>
 
         {/* Total Revenue */}
-        <div className="bg-white rounded-lg p-4 border border-gray-200">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#E8F5E9] rounded-lg flex items-center justify-center">
-              <IndianRupee className="text-[#4CAF50]" size={24} />
+        <Link href="/sales">
+          <button className="bg-white w-full hover:shadow-md hover:scale-105 transition-all duration-150 active:scale-100 rounded-lg p-4 border border-gray-200">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#E8F5E9] rounded-lg flex items-center justify-center">
+                <IndianRupee className="text-[#4CAF50]" size={24} />
+              </div>
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Total Revenue</p>
+                <p className="text-2xl font-semibold text-gray-900">₹33,300</p>
+              </div>
             </div>
-            <div>
-              <p className="text-gray-600 text-sm mb-1">Total Revenue</p>
-              <p className="text-2xl font-semibold text-gray-900">₹33,300</p>
-            </div>
-          </div>
-        </div>
+          </button>
+        </Link>
 
         {/* New Orders */}
         <div className="bg-white rounded-lg p-4 border border-gray-200">
@@ -290,17 +296,19 @@ export default function DashboardPage() {
         </div>
 
         {/* Stock Alerts */}
-        <div className="bg-[#F9E4E1] rounded-lg p-4 border border-[#FFCDD2]">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#F9D3D0] rounded-lg flex items-center justify-center">
-              <AlertTriangle className="text-[#F44336]" size={24} />
+        <Link href="/products">
+          <button className="bg-[#F9E4E1] hover:shadow-md w-full hover:scale-105 transition-all duration-150 active:scale-100 rounded-lg p-4 border border-[#FFCDD2]">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#F9D3D0] rounded-lg flex items-center justify-center">
+                <AlertTriangle className="text-[#F44336]" size={24} />
+              </div>
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Stock Alerts</p>
+                <p className="text-2xl font-semibold text-[#F44336]">1 Alert</p>
+              </div>
             </div>
-            <div>
-              <p className="text-gray-600 text-sm mb-1">Stock Alerts</p>
-              <p className="text-2xl font-semibold text-[#F44336]">1 Alert</p>
-            </div>
-          </div>
-        </div>
+          </button>
+        </Link>
       </div>
 
       {/* Charts */}
