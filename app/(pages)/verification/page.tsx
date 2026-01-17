@@ -22,7 +22,7 @@ export default function BusinessVerificationPage() {
       id: "1",
       companyName: "FreshCompany",
       contactPerson: "Jane Doe",
-      phone: "+91 80882 50263",
+      phone: "+917204630300",
       email: "jane@gmail.com",
       address: "Koramangala, Near Forum Mall, 560034",
       shopPhotos: [
@@ -37,7 +37,7 @@ export default function BusinessVerificationPage() {
       id: "2",
       companyName: "FreshCompany",
       contactPerson: "Jane Doe",
-      phone: "+91 80882 50263",
+      phone: "+918088250263",
       email: "jane@gmail.com",
       address: "Koramangala, Near Forum Mall, 560034",
       shopPhotos: [
@@ -52,7 +52,7 @@ export default function BusinessVerificationPage() {
       id: "3",
       companyName: "FreshCompany",
       contactPerson: "Jane Doe",
-      phone: "+91 80882 50263",
+      phone: "+918088250263",
       email: "jane@gmail.com",
       address: "Koramangala, Near Forum Mall, 560034",
       shopPhotos: [
@@ -65,20 +65,84 @@ export default function BusinessVerificationPage() {
     },
   ]);
 
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(
+    null,
+  );
+  const [rejectReason, setRejectReason] = useState("");
+
   const handleVerify = (id: string) => {
     setRequests(
       requests.map((req) =>
-        req.id === id ? { ...req, status: "approved" as const } : req
-      )
+        req.id === id ? { ...req, status: "approved" as const } : req,
+      ),
     );
   };
 
-  const handleReject = (id: string) => {
-    setRequests(
-      requests.map((req) =>
-        req.id === id ? { ...req, status: "rejected" as const } : req
-      )
-    );
+  const handleRejectClick = (id: string) => {
+    setSelectedRequestId(id);
+    setRejectReason("");
+    setShowRejectModal(true);
+  };
+
+  const handleRejectConfirm = () => {
+    if (!rejectReason.trim()) {
+      alert("Please provide a reason for rejection");
+      return;
+    }
+
+    const request = requests.find((req) => req.id === selectedRequestId);
+
+    if (request) {
+      // Update status
+      setRequests(
+        requests.map((req) =>
+          req.id === selectedRequestId
+            ? { ...req, status: "rejected" as const }
+            : req,
+        ),
+      );
+
+      // Send WhatsApp message
+      sendWhatsAppMessage(request.phone, rejectReason);
+
+      // Close modal
+      setShowRejectModal(false);
+      setRejectReason("");
+      setSelectedRequestId(null);
+    }
+  };
+
+  const sendWhatsAppMessage = (phoneNumber: string, reason: string) => {
+    // Remove any spaces, dashes, or special characters from phone number
+    const cleanPhone = phoneNumber.replace(/[^0-9+]/g, "");
+
+    // Create the message
+    const message = `Hello,
+
+Your business verification request was rejected.
+
+Reason: ${reason}
+
+Please address the issue and resubmit your application.
+
+Thank you,
+Farm2Store`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // Create WhatsApp URL
+    const whatsappURL = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+
+    // Open WhatsApp in new tab
+    window.open(whatsappURL, "_blank");
+  };
+
+  const handleCloseModal = () => {
+    setShowRejectModal(false);
+    setRejectReason("");
+    setSelectedRequestId(null);
   };
 
   return (
@@ -124,7 +188,7 @@ export default function BusinessVerificationPage() {
                       </p>
                     </div>
                     {/* Contact Details */}
-                    <div className="grid grid-cols-2  gap-3 mb-2">
+                    <div className="grid grid-cols-2 gap-3 mb-2">
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Phone size={16} className="text-gray-500" />
                         <span>{request.phone}</span>
@@ -143,7 +207,7 @@ export default function BusinessVerificationPage() {
                     {request.status === "pending" && (
                       <div className="flex gap-2">
                         <button
-                          onClick={() => handleReject(request.id)}
+                          onClick={() => handleRejectClick(request.id)}
                           className="flex items-center gap-2 px-4 py-2 bg-[#F44336] text-white rounded-lg hover:bg-[#D32F2F] transition-colors text-sm font-medium"
                         >
                           <X size={16} />
@@ -199,6 +263,59 @@ export default function BusinessVerificationPage() {
           </div>
         ))}
       </div>
+
+      {/* Reject Reason Modal */}
+      {showRejectModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-md">
+            {/* Modal Header */}
+            <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-900">
+                Rejection Reason
+              </h2>
+              <button
+                onClick={handleCloseModal}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Please provide a reason for rejection
+              </label>
+              <textarea
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                placeholder="Enter the reason for rejection..."
+                rows={5}
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
+              />
+              <p className="text-xs text-gray-500 mt-2">
+                This message will be sent via WhatsApp to the business owner
+              </p>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+              <button
+                onClick={handleCloseModal}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRejectConfirm}
+                className="px-4 py-2 bg-[#F44336] text-white rounded-lg hover:bg-[#D32F2F] transition-colors font-medium"
+              >
+                Reject & Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
