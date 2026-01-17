@@ -68,16 +68,16 @@ export default function BusinessVerificationPage() {
   const handleVerify = (id: string) => {
     setRequests(
       requests.map((req) =>
-        req.id === id ? { ...req, status: "approved" as const } : req,
-      ),
+        req.id === id ? { ...req, status: "approved" as const } : req
+      )
     );
   };
 
   const handleReject = (id: string) => {
     setRequests(
       requests.map((req) =>
-        req.id === id ? { ...req, status: "rejected" as const } : req,
-      ),
+        req.id === id ? { ...req, status: "rejected" as const } : req
+      )
     );
   };
 
