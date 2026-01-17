@@ -31,7 +31,7 @@ export default function BusinessVerificationPage() {
         "/assets/shop-photo.png",
       ],
       status: "pending",
-      profileImage: "/assets/profile.jpg",
+      profileImage: "/assets/profile.png",
     },
     {
       id: "2",
@@ -46,7 +46,7 @@ export default function BusinessVerificationPage() {
         "/assets/shop-photo.png",
       ],
       status: "approved",
-      profileImage: "/assets/profile.jpg",
+      profileImage: "/assets/profile.png",
     },
     {
       id: "3",
@@ -61,7 +61,7 @@ export default function BusinessVerificationPage() {
         "/assets/shop-photo.png",
       ],
       status: "rejected",
-      profileImage: "/assets/profile.jpg",
+      profileImage: "/assets/profile.png",
     },
   ]);
 
@@ -169,10 +169,10 @@ Farm2Store`;
                 {/* Profile Image */}
                 <div className="w-24 h-24 rounded-full overflow-hidden relative">
                   <Image
-                    src={request.profileImage}
-                    alt={request.contactPerson}
-                    fill
-                    className="object-cover"
+                    src="/assets/profile.png"
+                    width={96}
+                    height={96}
+                    alt="alright"
                   />
                 </div>
 
@@ -266,7 +266,7 @@ Farm2Store`;
 
       {/* Reject Reason Modal */}
       {showRejectModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-3xl bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg w-full max-w-md">
             {/* Modal Header */}
             <div className="p-6 border-b border-gray-200 flex justify-between items-center">
