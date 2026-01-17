@@ -122,7 +122,8 @@ export default function BusinessVerificationPage() {
 
 Your business verification request was rejected.
 
-Reason: ${reason}
+Reason:
+${reason}
 
 Please address the issue and resubmit your application.
 
