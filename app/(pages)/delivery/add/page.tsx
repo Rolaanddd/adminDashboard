@@ -48,7 +48,7 @@ export default function AddDriverPage() {
 
   const handleFileChange = (
     field: "profilePhoto" | "vehicleLicense" | "vehicleInsurance" | "vehicleRC",
-    file: File | null
+    file: File | null,
   ) => {
     if (file) {
       const reader = new FileReader();
@@ -64,7 +64,7 @@ export default function AddDriverPage() {
   };
 
   const handleRemoveFile = (
-    field: "profilePhoto" | "vehicleLicense" | "vehicleInsurance" | "vehicleRC"
+    field: "profilePhoto" | "vehicleLicense" | "vehicleInsurance" | "vehicleRC",
   ) => {
     setFormData({
       ...formData,
@@ -146,7 +146,7 @@ export default function AddDriverPage() {
                   onChange={(e) =>
                     handleFileChange(
                       "profilePhoto",
-                      e.target.files?.[0] || null
+                      e.target.files?.[0] || null,
                     )
                   }
                   className="hidden"
@@ -271,7 +271,7 @@ export default function AddDriverPage() {
                       onChange={(e) =>
                         handleFileChange(
                           "vehicleLicense",
-                          e.target.files?.[0] || null
+                          e.target.files?.[0] || null,
                         )
                       }
                       className="hidden"
@@ -329,7 +329,7 @@ export default function AddDriverPage() {
                       onChange={(e) =>
                         handleFileChange(
                           "vehicleInsurance",
-                          e.target.files?.[0] || null
+                          e.target.files?.[0] || null,
                         )
                       }
                       className="hidden"
@@ -387,7 +387,7 @@ export default function AddDriverPage() {
                       onChange={(e) =>
                         handleFileChange(
                           "vehicleRC",
-                          e.target.files?.[0] || null
+                          e.target.files?.[0] || null,
                         )
                       }
                       className="hidden"
